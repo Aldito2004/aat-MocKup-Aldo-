@@ -1379,3 +1379,379 @@
   </footer>
 </body>
 </html>
+<!-- Sustituye el bloque ilustrativo actual por este bloque. -->
+<aside class="logistic-ejemplo">
+  <p class="logistic-etiqueta">Cada regreso cuenta</p>
+  <h2>Una entrega termina.<br>Otra oportunidad comienza.</h2>
+  <p>
+    Tu camión lleva carga de Ciudad de México a Monterrey.
+    Para volver a su base, Logistic sugiere una carga compatible
+    de Querétaro a Ciudad de México.
+  </p>
+
+  <div class="logistic-enlaces">
+    <a href="#como-funciona" class="logistic-boton">Ejemplo ilustrativo ↗</a>
+    <a href="#como-funciona" class="logistic-enlace">Cómo funciona ↓</a>
+  </div>
+</aside>
+
+<style>
+  .logistic-ejemplo,
+  .logistic-explicacion {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.6;
+  }
+
+  .logistic-ejemplo {
+    padding: 30px;
+    border: 1px solid #547082;
+    border-radius: 20px;
+    background: #20475e;
+    color: #fff;
+  }
+
+  .logistic-etiqueta {
+    margin: 0 0 12px;
+    color: #b6ed79;
+    font-size: .75rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .logistic-ejemplo h2 {
+    margin: 0 0 18px;
+    color: #fff;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    line-height: 1.2;
+  }
+
+  .logistic-ejemplo > p:not(.logistic-etiqueta) {
+    color: #dce7ed;
+  }
+
+  .logistic-enlaces {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 24px;
+  }
+
+  .logistic-boton {
+    display: inline-block;
+    padding: 12px 18px;
+    border-radius: 9px;
+    background: #b6ed79;
+    color: #102c40;
+    font-weight: 750;
+    text-decoration: none;
+  }
+
+  .logistic-boton:hover {
+    background: #ccf5a4;
+  }
+
+  .logistic-enlace {
+    color: #fff;
+    font-weight: 650;
+    text-underline-offset: 5px;
+  }
+
+  .logistic-explicacion {
+    padding: 70px 0;
+    background: #f5f7f4;
+    color: #203544;
+    scroll-margin-top: 110px;
+  }
+
+  .logistic-contenedor {
+    width: min(1120px, 90%);
+    margin-inline: auto;
+  }
+
+  .logistic-explicacion .logistic-etiqueta {
+    color: #426b28;
+  }
+
+  .logistic-explicacion h2 {
+    margin: 0 0 18px;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    line-height: 1.15;
+    letter-spacing: -1px;
+  }
+
+  .logistic-intro {
+    max-width: 780px;
+    margin: 0 0 30px;
+    color: #586b77;
+  }
+
+  .logistic-figura {
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid #dce4df;
+    border-radius: 20px;
+    background: #fff;
+  }
+
+  .logistic-figura-cabecera {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    padding: 22px 26px;
+    border-bottom: 1px solid #dce4df;
+  }
+
+  .logistic-figura-cabecera h3 {
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  .logistic-insignia {
+    padding: 5px 11px;
+    border-radius: 30px;
+    background: #edf5e7;
+    color: #396124;
+    font-size: .78rem;
+    font-weight: 700;
+  }
+
+  .logistic-diagrama {
+    overflow-x: auto;
+    padding: 18px;
+  }
+
+  .logistic-diagrama svg {
+    display: block;
+    width: 100%;
+    min-width: 670px;
+    height: auto;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  .logistic-figura figcaption {
+    padding: 18px 26px;
+    border-top: 1px solid #dce4df;
+    color: #586b77;
+    font-size: .88rem;
+  }
+
+  .logistic-pasos {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    margin: 28px 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .logistic-pasos li {
+    padding: 23px;
+    border: 1px solid #dce4df;
+    border-radius: 14px;
+    background: #fff;
+  }
+
+  .logistic-paso-numero {
+    display: inline-grid;
+    width: 35px;
+    height: 35px;
+    margin-bottom: 15px;
+    place-items: center;
+    border-radius: 10px;
+    background: #102c40;
+    color: #b6ed79;
+    font-weight: 800;
+  }
+
+  .logistic-pasos h3 {
+    margin: 0 0 10px;
+    font-size: 1rem;
+  }
+
+  .logistic-pasos p {
+    margin: 0;
+    color: #586b77;
+    font-size: .9rem;
+  }
+
+  .logistic-resultado {
+    padding: 25px;
+    border-left: 5px solid #b6ed79;
+    border-radius: 10px;
+    background: #102c40;
+    color: #fff;
+  }
+
+  .logistic-resultado h3 {
+    margin: 0 0 10px;
+    color: #b6ed79;
+  }
+
+  .logistic-resultado p {
+    margin: 0;
+    color: #dce7ed;
+  }
+
+  .logistic-explicacion a:focus-visible,
+  .logistic-ejemplo a:focus-visible,
+  .logistic-diagrama:focus-visible {
+    outline: 3px solid #548728;
+    outline-offset: 5px;
+  }
+
+  @media (max-width: 850px) {
+    .logistic-pasos {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 560px) {
+    .logistic-explicacion {
+      padding-block: 45px;
+      scroll-margin-top: 140px;
+    }
+
+    .logistic-pasos {
+      grid-template-columns: 1fr;
+    }
+
+    .logistic-ejemplo {
+      padding: 23px;
+    }
+  }
+</style>
+
+<!-- Coloca esta sección después del hero. Ambos enlaces apuntan aquí. -->
+<section class="logistic-explicacion" id="como-funciona" aria-labelledby="logistic-como-titulo">
+  <div class="logistic-contenedor">
+    <p class="logistic-etiqueta">Cómo funciona Logistic</p>
+    <h2 id="logistic-como-titulo">De regreso a tu base,<br>con una nueva carga en el camino.</h2>
+    <p class="logistic-intro">
+      Imagina que tu base está en Ciudad de México y entregas mercancía en Monterrey.
+      Tienes que regresar: Logistic busca pedidos compatibles con ese retorno y
+      puede sugerirte recoger una carga en Querétaro para llevarla a Ciudad de México.
+    </p>
+
+    <figure class="logistic-figura">
+      <div class="logistic-figura-cabecera">
+        <h3>Un camión · Una entrega inicial · Una oportunidad de regreso</h3>
+        <span class="logistic-insignia">Ejemplo ilustrativo</span>
+      </div>
+
+      <div class="logistic-diagrama" tabindex="0" role="region" aria-label="Diagrama del viaje. En pantallas pequeñas puedes desplazarte horizontalmente.">
+        <svg viewBox="0 0 1000 650" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="ruta-titulo ruta-descripcion">
+          <title id="ruta-titulo">Viaje de Ciudad de México a Monterrey y regreso con recolección en Querétaro</title>
+          <desc id="ruta-descripcion">
+            Primero, el camión sale con carga de Ciudad de México y entrega en Monterrey.
+            Sin una nueva carga, regresaría vacío hasta Ciudad de México.
+            Con una coincidencia de Logistic, viaja vacío de Monterrey a Querétaro,
+            recoge mercancía y completa el tramo Querétaro a Ciudad de México con carga.
+            Los usuarios acuerdan precio y contrato antes de confirmar el servicio.
+          </desc>
+
+          <defs>
+            <marker id="flecha-ida" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M0 0 L10 5 L0 10Z" fill="#20475e"/>
+            </marker>
+            <marker id="flecha-vacia" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M0 0 L10 5 L0 10Z" fill="#94651a"/>
+            </marker>
+            <marker id="flecha-carga" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M0 0 L10 5 L0 10Z" fill="#48762a"/>
+            </marker>
+          </defs>
+
+          <rect x="15" y="15" width="970" height="180" rx="16" fill="#eef3f6"/>
+          <text x="40" y="49" fill="#20475e" font-size="16" font-weight="800">1. VIAJE DE IDA · CON CARGA</text>
+
+          <path d="M185 112 H810" fill="none" stroke="#20475e" stroke-width="7" marker-end="url(#flecha-ida)"/>
+          <circle cx="155" cy="112" r="11" fill="#20475e"/>
+          <circle cx="845" cy="112" r="11" fill="#20475e"/>
+          <rect x="367" y="86" width="270" height="44" rx="10" fill="#20475e"/>
+          <text x="502" y="113" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">Entrega de mercancía →</text>
+
+          <text x="155" y="151" text-anchor="middle" fill="#203544" font-size="17" font-weight="750">Ciudad de México</text>
+          <text x="155" y="174" text-anchor="middle" fill="#586b77" font-size="13">Base y salida</text>
+          <text x="845" y="151" text-anchor="middle" fill="#203544" font-size="17" font-weight="750">Monterrey</text>
+          <text x="845" y="174" text-anchor="middle" fill="#586b77" font-size="13">Destino de la entrega</text>
+
+          <rect x="15" y="210" width="970" height="155" rx="16" fill="#fff8eb"/>
+          <text x="40" y="244" fill="#795319" font-size="16" font-weight="800">2. EL PROBLEMA · TIENE QUE VOLVER A SU BASE</text>
+
+          <path d="M830 290 H178" fill="none" stroke="#94651a" stroke-width="5" stroke-dasharray="12 9" marker-end="url(#flecha-vacia)"/>
+          <rect x="315" y="269" width="370" height="42" rx="10" fill="#fff8eb"/>
+          <text x="500" y="296" text-anchor="middle" fill="#795319" font-size="15" font-weight="700">← Sin una nueva carga, vuelve vacío</text>
+          <text x="155" y="339" text-anchor="middle" fill="#203544" font-size="16" font-weight="750">Ciudad de México</text>
+          <text x="845" y="339" text-anchor="middle" fill="#203544" font-size="16" font-weight="750">Monterrey</text>
+
+          <rect x="15" y="380" width="970" height="250" rx="16" fill="#f0f7ea"/>
+          <text x="40" y="415" fill="#396124" font-size="16" font-weight="800">3. CON LOGISTIC · UNA CARGA COMPATIBLE EN EL REGRESO</text>
+
+          <path d="M830 489 H558" fill="none" stroke="#94651a" stroke-width="5" stroke-dasharray="12 9" marker-end="url(#flecha-vacia)"/>
+          <path d="M510 489 H178" fill="none" stroke="#48762a" stroke-width="8" marker-end="url(#flecha-carga)"/>
+
+          <circle cx="845" cy="489" r="10" fill="#20475e"/>
+          <circle cx="535" cy="489" r="13" fill="#b6ed79" stroke="#48762a" stroke-width="3"/>
+          <circle cx="155" cy="489" r="10" fill="#48762a"/>
+
+          <text x="700" y="465" text-anchor="middle" fill="#795319" font-size="14" font-weight="700">Tramo todavía vacío</text>
+          <text x="335" y="465" text-anchor="middle" fill="#396124" font-size="14" font-weight="800">← Regreso con nueva carga</text>
+
+          <text x="155" y="529" text-anchor="middle" fill="#203544" font-size="17" font-weight="750">Ciudad de México</text>
+          <text x="155" y="553" text-anchor="middle" fill="#586b77" font-size="13">Entrega y vuelta a base</text>
+
+          <text x="535" y="529" text-anchor="middle" fill="#203544" font-size="17" font-weight="750">Querétaro</text>
+          <text x="535" y="553" text-anchor="middle" fill="#586b77" font-size="13">Recoge la carga sugerida</text>
+
+          <text x="845" y="529" text-anchor="middle" fill="#203544" font-size="17" font-weight="750">Monterrey</text>
+          <text x="845" y="553" text-anchor="middle" fill="#586b77" font-size="13">Inicia el regreso</text>
+
+          <rect x="255" y="575" width="490" height="35" rx="9" fill="#dceece"/>
+          <text x="500" y="598" text-anchor="middle" fill="#315520" font-size="14" font-weight="700">Carga sugerida por Logistic: Querétaro → Ciudad de México</text>
+        </svg>
+      </div>
+
+      <figcaption>
+        Esquema del recorrido, no un mapa a escala. La oportunidad depende de que exista una
+        carga compatible con la unidad, los horarios y la ruta. En este ejemplo, el tramo
+        Monterrey–Querétaro sigue vacío; se aprovecha el tramo Querétaro–Ciudad de México.
+      </figcaption>
+    </figure>
+
+    <ol class="logistic-pasos">
+      <li>
+        <span class="logistic-paso-numero">1</span>
+        <h3>Registras tu viaje</h3>
+        <p>Indicas tu unidad, ubicación, destino de entrega y base de regreso: Ciudad de México.</p>
+      </li>
+      <li>
+        <span class="logistic-paso-numero">2</span>
+        <h3>Logistic busca coincidencias</h3>
+        <p>La IA considera tu recorrido y los pedidos registrados para sugerir una carga disponible de Querétaro a Ciudad de México.</p>
+      </li>
+      <li>
+        <span class="logistic-paso-numero">3</span>
+        <h3>Acuerdan el servicio</h3>
+        <p>El transportista y quien publica la carga acuerdan precio, horarios y contrato antes de confirmar el viaje.</p>
+      </li>
+      <li>
+        <span class="logistic-paso-numero">4</span>
+        <h3>Recoges y regresas</h3>
+        <p>Recoges en Querétaro, entregas en Ciudad de México y vuelves a tu base aprovechando parte del retorno.</p>
+      </li>
+    </ol>
+
+    <div class="logistic-resultado">
+      <h3>Menos kilómetros vacíos, más oportunidades en tu regreso.</h3>
+      <p>
+        La idea no es que el camión cambie su destino final:
+        debe regresar a Ciudad de México. Logistic ayuda a encontrar una carga
+        que encaje en ese recorrido para que una parte del regreso genere ingresos.
+      </p>
+    </div>
+  </div>
+</section>
