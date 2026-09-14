@@ -487,3 +487,895 @@
   </footer>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Logistic conecta cargas con transportistas para aprovechar los viajes de regreso.">
+  <title>Logistic | Cada regreso cuenta</title>
+  <style>
+    :root {
+      --azul: #102c40;
+      --azul-claro: #20475e;
+      --verde: #b6ed79;
+      --fondo: #f5f7f4;
+      --texto: #203544;
+      --gris: #586b77;
+      --borde: #dce4df;
+      --blanco: #fff;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+      background: var(--fondo);
+      color: var(--texto);
+    }
+    a { color: inherit; }
+    button, input, select, textarea { font: inherit; }
+    input, select, textarea { min-width: 0; }
+    a:focus-visible, button:focus-visible, summary:focus-visible,
+    input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: 3px solid #548728;
+      outline-offset: 4px;
+    }
+    .contenedor { width: min(1120px, 90%); margin-inline: auto; }
+    .navegacion {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--borde);
+      background: var(--fondo);
+    }
+    .barra {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      min-height: 78px;
+    }
+    .marca {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.5rem;
+      font-weight: 850;
+      text-decoration: none;
+      letter-spacing: -1px;
+    }
+    .simbolo {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--azul);
+      color: var(--verde);
+    }
+    nav ul {
+      display: flex;
+      gap: 26px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    nav a { font-weight: 650; text-decoration: none; }
+    nav li a:hover { text-decoration: underline; text-underline-offset: 5px; }
+    .hero { background: var(--azul); color: var(--blanco); }
+    .hero-interior {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      align-items: center;
+      gap: 60px;
+      padding-block: 80px;
+    }
+    .etiqueta {
+      margin: 0 0 14px;
+      color: #436a29;
+      font-size: .75rem;
+      font-weight: 800;
+      letter-spacing: 1.7px;
+      text-transform: uppercase;
+    }
+    .hero .etiqueta { color: var(--verde); }
+    h1 {
+      margin: 0;
+      font-size: clamp(2.7rem, 5.5vw, 4.6rem);
+      line-height: 1.08;
+      letter-spacing: -2px;
+    }
+    h1 span { color: var(--verde); }
+    h2 { margin: 0 0 16px; font-size: clamp(1.7rem, 3vw, 2.4rem); line-height: 1.2; }
+    h3 { margin: 0 0 12px; }
+    .subtitulo { margin: 24px 0 30px; color: #d3e0e8; font-size: 1.1rem; }
+    .boton {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 13px 22px;
+      border: 0;
+      border-radius: 9px;
+      background: var(--verde);
+      color: var(--azul);
+      font-weight: 750;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .boton:hover { background: #c8f59b; }
+    .boton-secundario { background: var(--azul); color: white; }
+    .boton-secundario:hover { background: var(--azul-claro); }
+    .ruta {
+      padding: 30px;
+      border: 1px solid #547082;
+      border-radius: 18px;
+      background: var(--azul-claro);
+    }
+    .ruta h2 { font-size: 1.1rem; }
+    .ruta ol { padding-left: 24px; }
+    .ruta li { padding: 8px 0 8px 8px; }
+    .ruta li::marker { color: var(--verde); }
+    .ruta small { display: block; color: #d3e0e8; }
+    .ruta p { margin-bottom: 0; color: #d3e0e8; font-size: .88rem; }
+    .seccion { padding-block: 64px; }
+    .introduccion { max-width: 760px; margin: 0 0 28px; color: var(--gris); }
+    .tarjetas, .perfiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .tarjeta {
+      padding: 27px;
+      border: 1px solid var(--borde);
+      border-radius: 14px;
+      background: white;
+    }
+    .numero {
+      display: inline-grid;
+      width: 40px;
+      height: 40px;
+      margin-bottom: 20px;
+      place-items: center;
+      border-radius: 10px;
+      background: #edf5e7;
+      color: #396124;
+      font-weight: 800;
+    }
+    .tarjeta p { margin: 0; color: var(--gris); }
+    .tarjeta .dato { margin-bottom: 10px; color: #396124; font-size: .85rem; font-weight: 750; }
+    .registro { border-top: 1px solid var(--borde); }
+    .aviso {
+      padding: 16px 20px;
+      border: 1px solid #dbd1ab;
+      border-radius: 10px;
+      background: #fff9e8;
+      color: #665221;
+      font-size: .9rem;
+    }
+    .perfil {
+      display: block;
+      padding: 25px;
+      border: 2px solid var(--borde);
+      border-radius: 14px;
+      background: white;
+      cursor: pointer;
+    }
+    .perfil:hover { border-color: #789e5d; }
+    .perfil:has(input:checked) { border-color: #548728; background: #f0f8e9; }
+    .perfil input { width: 19px; height: 19px; margin: 0 0 16px; accent-color: #426d28; }
+    .perfil strong { display: block; font-size: 1.1rem; line-height: 1.4; }
+    .perfil span { display: block; margin-top: 10px; color: var(--gris); font-size: .9rem; }
+    fieldset {
+      min-width: 0;
+      margin: 0 0 26px;
+      padding: 26px;
+      border: 1px solid var(--borde);
+      border-radius: 14px;
+      background: white;
+    }
+    legend { padding-inline: 9px; font-size: 1.1rem; font-weight: 750; }
+    .seleccion { padding: 0; border: 0; background: transparent; }
+    .seleccion legend { margin-bottom: 20px; padding: 0; }
+    .formulario { margin-top: 34px; }
+    .campos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+    .campo { display: flex; flex-direction: column; gap: 7px; font-size: .9rem; font-weight: 650; }
+    .ancho { grid-column: 1 / -1; }
+    input:not([type="radio"]):not([type="checkbox"]), select, textarea {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid #aebeb7;
+      border-radius: 7px;
+      background: #fff;
+      color: var(--texto);
+    }
+    textarea { min-height: 95px; resize: vertical; }
+    input[type="file"] { font-size: .82rem; font-weight: 400; }
+    input::file-selector-button {
+      margin-right: 10px;
+      padding: 7px 10px;
+      border: 0;
+      border-radius: 5px;
+      background: #edf2ef;
+      color: var(--azul);
+      cursor: pointer;
+    }
+    .ayuda { margin: 0 0 20px; color: var(--gris); font-size: .88rem; }
+    .campo small { color: var(--gris); font-weight: 400; }
+    .check { display: flex; align-items: flex-start; gap: 10px; margin-block: 12px; font-size: .9rem; }
+    .check input { flex: 0 0 auto; width: 18px; height: 18px; margin-top: 5px; accent-color: #426d28; }
+    .verificacion {
+      padding: 20px;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      background: var(--fondo);
+    }
+    .verificacion h3 { font-size: 1rem; }
+    .estado {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 30px;
+      background: #fff0cd;
+      color: #755713;
+      font-size: .78rem;
+      font-weight: 700;
+    }
+    .verificacion p { color: var(--gris); font-size: .88rem; }
+    .verificacion button { margin-top: 12px; }
+    button:disabled { opacity: .6; cursor: not-allowed; }
+    details { margin-top: 18px; border: 1px solid var(--borde); border-radius: 10px; background: white; }
+    summary { padding: 18px; cursor: pointer; font-weight: 750; }
+    .detalle { padding: 4px 20px 22px; }
+    .detalle h3 { margin-top: 22px; font-size: 1rem; }
+    .acciones { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; margin-top: 24px; }
+    .acciones p { max-width: 630px; margin: 0; color: var(--gris); font-size: .85rem; }
+    .solo-empresa, .solo-carga, .solo-transporte, .solo-independiente,
+    .formulario { display: none; }
+
+    form:has(.selector:checked) .formulario { display: block; }
+    form:has(#generador:checked) .solo-empresa,
+    form:has(#transportista:checked) .solo-empresa,
+    form:has(#generador:checked) .solo-carga,
+    form:has(#transportista:checked) .solo-transporte,
+    form:has(#independiente:checked) .solo-transporte,
+    form:has(#independiente:checked) .solo-independiente { display: block; }
+
+    .revision { display: none; padding-block: 60px; }
+    .revision:target { display: block; }
+    .panel-revision {
+      max-width: 760px;
+      margin-inline: auto;
+      padding: 36px;
+      border: 1px solid var(--borde);
+      border-radius: 16px;
+      background: white;
+    }
+    .panel-revision h2 { margin-top: 18px; }
+    .panel-revision li { margin-bottom: 12px; }
+    .legal { padding-bottom: 40px; }
+    .legal p { color: var(--gris); }
+    footer { border-top: 1px solid var(--borde); padding-block: 28px; }
+    .pie { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 18px; }
+    .pie p { margin: 0; color: var(--gris); font-size: .85rem; }
+
+    @media (max-width: 850px) {
+      .hero-interior { grid-template-columns: 1fr; gap: 35px; padding-block: 56px; }
+      .tarjetas, .perfiles { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .barra { flex-direction: column; gap: 10px; padding-block: 14px; }
+      html { scroll-padding-top: 130px; }
+      nav ul { gap: 22px; font-size: .9rem; }
+      .campos { grid-template-columns: 1fr; }
+      fieldset { padding: 18px; }
+      .seccion { padding-block: 44px; }
+      .panel-revision { padding: 24px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+  <header class="navegacion">
+    <nav class="contenedor barra" aria-label="Navegación principal">
+      <a class="marca" href="#inicio">
+        <span class="simbolo" aria-hidden="true">↗</span>
+        Logistic
+      </a>
+      <ul>
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#registro">Registro</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio" aria-labelledby="titulo">
+      <div class="contenedor hero-interior">
+        <div>
+          <p class="etiqueta">Logística inteligente de retorno</p>
+          <h1>Tu camión regresa.<br><span>Que vuelva con carga.</span></h1>
+          <p class="subtitulo">Conectamos rutas de regreso con cargas compatibles mediante IA para reducir kilómetros vacíos y aprovechar cada viaje.</p>
+          <a class="boton" href="#registro">Elegir mi perfil ↗</a>
+        </div>
+        <aside class="ruta" aria-label="Ejemplo de ruta de retorno">
+          <h2>Un regreso con oportunidad</h2>
+          <small>Ejemplo ilustrativo</small>
+          <ol>
+            <li><strong>Monterrey</strong><small>Entrega completada e inicio del regreso.</small></li>
+            <li><strong>Querétaro</strong><small>Recolección de carga compatible.</small></li>
+            <li><strong>Ciudad de México</strong><small>Entrega de carga y retorno a base.</small></li>
+          </ol>
+          <p>Logistic sugiere la conexión; los usuarios acuerdan el precio y el contrato.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="contenedor seccion" id="servicios" aria-labelledby="titulo-servicios">
+      <p class="etiqueta">Cada kilómetro cuenta</p>
+      <h2 id="titulo-servicios">Conecta tu operación con nuevas oportunidades.</h2>
+      <div class="tarjetas">
+        <article class="tarjeta">
+          <span class="numero">01</span>
+          <h3>Publicación de cargas</h3>
+          <p class="dato">Origen, destino y necesidades</p>
+          <p>Encuentra transportistas con recorridos compatibles con la mercancía que necesitas mover.</p>
+        </article>
+        <article class="tarjeta">
+          <span class="numero">02</span>
+          <h3>Gestión de unidades</h3>
+          <p class="dato">Una unidad o toda tu flota</p>
+          <p>Organiza los datos, documentos y rutas habituales de cada camión desde su registro.</p>
+        </article>
+        <article class="tarjeta">
+          <span class="numero">03</span>
+          <h3>Retornos inteligentes</h3>
+          <p class="dato">Sugerencias mediante IA</p>
+          <p>Identifica oportunidades de carga en el camino de regreso a tu base de operación.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="registro seccion" id="registro" aria-labelledby="titulo-registro">
+      <div class="contenedor">
+        <p class="etiqueta">Únete a Logistic</p>
+        <h2 id="titulo-registro">¿Cómo quieres operar?</h2>
+        <p class="introduccion">Selecciona un perfil para desplegar su formulario, completar tus datos y preparar la documentación correspondiente.</p>
+        <p class="aviso"><strong>Prototipo de práctica:</strong> este HTML no crea cuentas, guarda archivos ni envía información. Las verificaciones y la revisión documental necesitan un servicio conectado. Utiliza únicamente datos ficticios.</p>
+
+        <!-- Sin atributos name: los datos del prototipo no se incluyen en la URL. -->
+        <form action="#revision" method="get">
+          <fieldset class="seleccion">
+            <legend>1. Selecciona tu tipo de usuario</legend>
+            <div class="perfiles">
+              <label class="perfil">
+                <input class="selector" type="radio" id="generador" name="perfil" value="generador" required>
+                <strong>Empresa / Generador de carga</strong>
+                <span>Publica mercancías que necesita transportar.</span>
+              </label>
+              <label class="perfil">
+                <input class="selector" type="radio" id="transportista" name="perfil" value="transportista">
+                <strong>Empresa transportista</strong>
+                <span>Registra su flota y acepta viajes.</span>
+              </label>
+              <label class="perfil">
+                <input class="selector" type="radio" id="independiente" name="perfil" value="independiente">
+                <strong>Transportista independiente</strong>
+                <span>Registra su unidad y acepta viajes directamente.</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="formulario">
+            <p class="ayuda">Los campos marcados con * son obligatorios para esta demostración. La documentación aplicable deberá validarse en la aplicación real.</p>
+
+            <fieldset>
+              <legend>2. Datos básicos de tu cuenta</legend>
+              <div class="campos">
+                <label class="campo">Nombre y apellidos *
+                  <input type="text" autocomplete="name" required>
+                </label>
+                <label class="campo">Número celular *
+                  <input type="tel" autocomplete="tel" placeholder="+52 55 1234 5678" required>
+                </label>
+                <label class="campo">Correo electrónico *
+                  <input type="email" autocomplete="email" required>
+                </label>
+                <label class="campo">Contraseña *
+                  <input type="password" autocomplete="new-password" minlength="12" required aria-describedby="ayuda-clave">
+                  <small id="ayuda-clave">Usa al menos 12 caracteres y una contraseña ficticia para esta prueba.</small>
+                </label>
+                <label class="campo">País *
+                  <input type="text" autocomplete="country-name" placeholder="México" required>
+                </label>
+                <label class="campo">Estado *
+                  <input type="text" autocomplete="address-level1" required>
+                </label>
+                <label class="campo">Ciudad / Municipio *
+                  <input type="text" autocomplete="address-level2" required>
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Verificación de contacto</legend>
+              <p class="ayuda">En la aplicación conectada, deberás verificar el celular mediante un código SMS y confirmar el enlace enviado a tu correo.</p>
+              <div class="campos">
+                <div class="verificacion">
+                  <h3>Número celular</h3>
+                  <span class="estado">Sin verificar</span>
+                  <p>El envío y la validación de códigos no están disponibles en este prototipo.</p>
+                  <label class="campo">Código SMS
+                    <input type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="Código recibido" disabled>
+                  </label>
+                  <button class="boton boton-secundario" type="button" disabled>Enviar código SMS</button>
+                </div>
+                <div class="verificacion">
+                  <h3>Correo electrónico</h3>
+                  <span class="estado">Sin verificar</span>
+                  <p>Recibirás un enlace para confirmar que tienes acceso a tu dirección de correo.</p>
+                  <button class="boton boton-secundario" type="button" disabled>Enviar enlace de verificación</button>
+                </div>
+              </div>
+            </fieldset>
+
+            <div class="solo-empresa">
+              <fieldset>
+                <legend>3. Información empresarial</legend>
+                <div class="campos">
+                  <label class="campo">Razón social
+                    <input type="text" autocomplete="organization">
+                  </label>
+                  <label class="campo">Nombre comercial
+                    <input type="text">
+                  </label>
+                  <label class="campo">RFC
+                    <input type="text" maxlength="13" placeholder="RFC de la empresa">
+                  </label>
+                  <label class="campo">Régimen fiscal
+                    <input type="text" placeholder="Clave y nombre del régimen">
+                  </label>
+                  <label class="campo ancho">Domicilio fiscal
+                    <textarea placeholder="Calle, número exterior e interior, colonia y código postal"></textarea>
+                  </label>
+                  <label class="campo">Estado
+                    <input type="text">
+                  </label>
+                  <label class="campo">Municipio
+                    <input type="text">
+                  </label>
+                  <label class="campo">Sitio web, si existe
+                    <input type="url" placeholder="https://ejemplo.com">
+                  </label>
+                  <label class="campo">Giro de la empresa
+                    <input type="text" placeholder="Distribución, agricultura, acero, transporte…">
+                  </label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend>Datos del representante</legend>
+                <div class="campos">
+                  <label class="campo">Nombre completo
+                    <input type="text">
+                  </label>
+                  <label class="campo">Puesto
+                    <input type="text">
+                  </label>
+                  <label class="campo">Teléfono
+                    <input type="tel">
+                  </label>
+                  <label class="campo">Correo corporativo
+                    <input type="email">
+                  </label>
+                  <label class="campo">Identificación oficial
+                    <input type="file" accept=".pdf,image/*">
+                  </label>
+                  <label class="campo">Documento que acredite facultades
+                    <input type="file" accept=".pdf,image/*">
+                    <small>Cuando corresponda.</small>
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+
+            <div class="solo-carga">
+              <fieldset>
+                <legend>Operación de cargas</legend>
+                <div class="campos">
+                  <label class="campo">Número aproximado de cargas mensuales
+                    <input type="number" min="0" step="1">
+                  </label>
+                  <label class="campo">Principales rutas que utiliza
+                    <textarea placeholder="Origen → destino; frecuencia aproximada"></textarea>
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+
+            <div class="solo-independiente">
+              <fieldset>
+                <legend>3. Datos del transportista independiente</legend>
+                <p class="ayuda">Los datos personales de tu cuenta identifican al titular de la unidad.</p>
+                <div class="campos">
+                  <label class="campo">RFC
+                    <input type="text" maxlength="13">
+                  </label>
+                  <label class="campo">Régimen fiscal
+                    <input type="text">
+                  </label>
+                  <label class="campo ancho">Domicilio fiscal
+                    <textarea placeholder="Calle, número, colonia, código postal, municipio y estado"></textarea>
+                  </label>
+                  <label class="campo">Identificación oficial
+                    <input type="file" accept=".pdf,image/*">
+                  </label>
+                  <label class="campo">Nombre comercial, si aplica
+                    <input type="text">
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+
+            <div class="solo-transporte">
+              <fieldset>
+                <legend>Contactos de la operación</legend>
+                <p class="ayuda">Si eres independiente, puedes utilizar tus propios datos como contacto operativo y de facturación.</p>
+                <div class="campos">
+                  <label class="campo">Nombre del contacto operativo
+                    <input type="text">
+                  </label>
+                  <label class="campo">Teléfono operativo
+                    <input type="tel">
+                  </label>
+                  <label class="campo ancho">Correo operativo
+                    <input type="email">
+                  </label>
+                  <label class="campo">Nombre del contacto de facturación
+                    <input type="text">
+                  </label>
+                  <label class="campo">Teléfono de facturación
+                    <input type="tel">
+                  </label>
+                  <label class="campo ancho">Correo de facturación
+                    <input type="email">
+                  </label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend>Información de operación</legend>
+                <div class="campos">
+                  <label class="campo">Número de unidades
+                    <input type="number" min="1" step="1">
+                  </label>
+                  <label class="campo">Tipos de unidades
+                    <input type="text" placeholder="Tractocamión, torton, rabón…">
+                  </label>
+                  <label class="campo">Cobertura geográfica
+                    <textarea placeholder="Estados, regiones o países"></textarea>
+                  </label>
+                  <label class="campo">Rutas habituales
+                    <textarea placeholder="Orígenes y destinos frecuentes"></textarea>
+                  </label>
+                  <label class="campo">Tipo de mercancías que transporta
+                    <textarea placeholder="Carga general, refrigerados, materiales…"></textarea>
+                  </label>
+                  <label class="campo">Base o bases de operación
+                    <textarea placeholder="Dirección, municipio y estado de cada base"></textarea>
+                  </label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend>Documentación del transportista</legend>
+                <p class="ayuda">Selecciona los documentos que correspondan a tu operación. Puedes elegir varios archivos por categoría; en esta demostración permanecen en tu dispositivo.</p>
+                <div class="campos">
+                  <label class="campo">Permisos de autotransporte
+                    <input type="file" accept=".pdf,image/*" multiple>
+                  </label>
+                  <label class="campo">Pólizas de seguro
+                    <input type="file" accept=".pdf,image/*" multiple>
+                  </label>
+                  <label class="campo">Documentación fiscal
+                    <input type="file" accept=".pdf,image/*" multiple>
+                  </label>
+                  <label class="campo">Documentación de operadores
+                    <input type="file" accept=".pdf,image/*" multiple>
+                    <small>Identificación, licencia y documentación aplicable.</small>
+                  </label>
+                </div>
+                <p class="ayuda">Las tarjetas de circulación y los datos de cada vehículo se seleccionan en su expediente individual.</p>
+              </fieldset>
+
+              <fieldset>
+                <legend>4. Registro individual de camiones</legend>
+                <p class="ayuda">Cada unidad debe tener su propio expediente. Este prototipo incluye dos espacios de ejemplo; agregar unidades ilimitadas y guardar cada expediente requiere conectar la aplicación.</p>
+
+                <details open>
+                  <summary>Unidad 01 · Identificación, operación y documentos</summary>
+                  <div class="detalle">
+                    <h3>Identificación</h3>
+                    <div class="campos">
+                      <label class="campo">Número económico interno
+                        <input type="text">
+                      </label>
+                      <label class="campo">Placas
+                        <input type="text">
+                      </label>
+                      <label class="campo">Marca
+                        <input type="text">
+                      </label>
+                      <label class="campo">Modelo
+                        <input type="text">
+                      </label>
+                      <label class="campo">Año
+                        <input type="number" min="1900" step="1">
+                      </label>
+                      <label class="campo">VIN / Número de serie
+                        <input type="text">
+                      </label>
+                      <label class="campo">Tipo de vehículo
+                        <select>
+                          <option value="">Selecciona una opción</option>
+                          <option>Tractocamión</option>
+                          <option>Torton</option>
+                          <option>Rabón</option>
+                          <option>Camioneta de carga</option>
+                          <option>Otro</option>
+                        </select>
+                      </label>
+                      <label class="campo">Tipo de caja
+                        <select>
+                          <option value="">Selecciona una opción</option>
+                          <option>Caja seca</option>
+                          <option>Refrigerada</option>
+                          <option>Plataforma</option>
+                          <option>Tolva</option>
+                          <option>Tanque</option>
+                          <option>Otro / No aplica</option>
+                        </select>
+                      </label>
+                      <label class="campo">Capacidad de carga útil (kg)
+                        <input type="number" min="0" step="0.01">
+                      </label>
+                      <label class="campo">Peso bruto máximo (kg)
+                        <input type="number" min="0" step="0.01">
+                        <small>Peso total del vehículo con carga.</small>
+                      </label>
+                      <label class="campo">Largo útil (m)
+                        <input type="number" min="0" step="0.01">
+                      </label>
+                      <label class="campo">Ancho útil (m)
+                        <input type="number" min="0" step="0.01">
+                      </label>
+                      <label class="campo">Alto útil (m)
+                        <input type="number" min="0" step="0.01">
+                      </label>
+                    </div>
+
+                    <h3>Operación</h3>
+                    <div class="campos">
+                      <label class="campo">Base de la unidad
+                        <input type="text" placeholder="Dirección, municipio y estado">
+                      </label>
+                      <label class="campo">Radio de operación (km)
+                        <input type="number" min="0" step="1">
+                      </label>
+                      <label class="campo ancho">Rutas habituales
+                        <textarea placeholder="Origen → destino"></textarea>
+                      </label>
+                      <label class="campo">Viajes que acepta
+                        <select>
+                          <option value="">Selecciona una opción</option>
+                          <option>Nacionales</option>
+                          <option>Regionales</option>
+                          <option>Nacionales y regionales</option>
+                        </select>
+                      </label>
+                      <label class="campo">¿Cuenta con GPS?
+                        <select>
+                          <option value="">Selecciona una opción</option>
+                          <option>Sí</option>
+                          <option>No</option>
+                        </select>
+                      </label>
+                    </div>
+
+                    <h3>Documentación de la unidad</h3>
+                    <div class="campos">
+                      <label class="campo">Tarjeta de circulación
+                        <input type="file" accept=".pdf,image/*">
+                      </label>
+                      <label class="campo">Seguro vigente
+                        <input type="file" accept=".pdf,image/*">
+                      </label>
+                      <label class="campo">Fecha de vencimiento del seguro
+                        <input type="date">
+                      </label>
+                      <label class="campo">Permisos correspondientes
+                        <input type="file" accept=".pdf,image/*" multiple>
+                      </label>
+                      <label class="campo ancho">Fotografías de la unidad
+                        <input type="file" accept="image/*" multiple>
+                        <small>Frente, laterales, parte trasera y zona de carga.</small>
+                      </label>
+                    </div>
+                  </div>
+                </details>
+
+                <details>
+                  <summary>Unidad 02 · Completar si tienes otra unidad</summary>
+                  <div class="detalle">
+                    <h3>Identificación</h3>
+                    <div class="campos">
+                      <label class="campo">Número económico interno
+                        <input type="text">
+                      </label>
+                      <label class="campo">Placas
+                        <input type="text">
+                      </label>
+                      <label class="campo">Marca
+                        <input type="text">
+                      </label>
+                      <label class="campo">Modelo
+                        <input type="text">
+                      </label>
+                      <label class="campo">Año
+                        <input type="number" min="1900" step="1">
+                      </label>
+                      <label class="campo">VIN / Número de serie
+                        <input type="text">
+                      </label>
+                      <label class="campo">Tipo de vehículo
+                        <select>
+                          <option value="">Selecciona una opción</option>
+                          <option>Tractocamión</option>
+                          <option>Torton</option>
+                          <option>Rabón</option>
+                          <option>Camioneta de carga</option>
+                          <option>Otro</option>
+                        </select>
+                      </label>
+                      <label class="campo">Tipo de caja
+                        <select>
+                          <option value="">Selecciona una opción</option>
+                          <option>Caja seca</option>
+                          <option>Refrigerada</option>
+                          <option>Plataforma</option>
+                          <option>Tolva</option>
+                          <option>Tanque</option>
+                          <option>Otro / No aplica</option>
+                        </select>
+                      </label>
+                      <label class="campo">Capacidad de carga útil (kg)
+                        <input type="number" min="0" step="0.01">
+                      </label>
+                      <label class="campo">Peso bruto máximo (kg)
+                        <input type="number" min="0" step="0.01">
+                      </label>
+                      <label class="campo">Largo útil (m)
+                        <input type="number" min="0" step="0.01">
+                      </label>
+                      <label class="campo">Ancho útil (m)
+                        <input type="number" min="0" step="0.01">
+                      </label>
+                      <label class="campo">Alto útil (m)
+                        <input type="number" min="0" step="0.01">
+                      </label>
+                    </div>
+
+                    <h3>Operación</h3>
+                    <div class="campos">
+                      <label class="campo">Base de la unidad
+                        <input type="text" placeholder="Dirección, municipio y estado">
+                      </label>
+                      <label class="campo">Radio de operación (km)
+                        <input type="number" min="0" step="1">
+                      </label>
+                      <label class="campo ancho">Rutas habituales
+                        <textarea placeholder="Origen → destino"></textarea>
+                      </label>
+                      <label class="campo">Viajes que acepta
+                        <select>
+                          <option value="">Selecciona una opción</option>
+                          <option>Nacionales</option>
+                          <option>Regionales</option>
+                          <option>Nacionales y regionales</option>
+                        </select>
+                      </label>
+                      <label class="campo">¿Cuenta con GPS?
+                        <select>
+                          <option value="">Selecciona una opción</option>
+                          <option>Sí</option>
+                          <option>No</option>
+                        </select>
+                      </label>
+                    </div>
+
+                    <h3>Documentación de la unidad</h3>
+                    <div class="campos">
+                      <label class="campo">Tarjeta de circulación
+                        <input type="file" accept=".pdf,image/*">
+                      </label>
+                      <label class="campo">Seguro vigente
+                        <input type="file" accept=".pdf,image/*">
+                      </label>
+                      <label class="campo">Fecha de vencimiento del seguro
+                        <input type="date">
+                      </label>
+                      <label class="campo">Permisos correspondientes
+                        <input type="file" accept=".pdf,image/*" multiple>
+                      </label>
+                      <label class="campo ancho">Fotografías de la unidad
+                        <input type="file" accept="image/*" multiple>
+                      </label>
+                    </div>
+                  </div>
+                </details>
+              </fieldset>
+            </div>
+
+            <fieldset>
+              <legend>Aceptaciones</legend>
+              <p class="ayuda">Casillas de demostración. Los documentos legales definitivos deben incorporarse antes de habilitar registros reales.</p>
+              <label class="check">
+                <input type="checkbox" required>
+                <span>Acepto los <a href="#terminos">términos y condiciones</a> del ejemplo. *</span>
+              </label>
+              <label class="check">
+                <input type="checkbox" required>
+                <span>He leído y acepto el <a href="#privacidad">aviso de privacidad</a> del ejemplo. *</span>
+              </label>
+            </fieldset>
+
+            <div class="acciones">
+              <button class="boton" type="submit">Ver ejemplo de revisión pendiente ↗</button>
+              <p>Este botón muestra el siguiente estado del diseño; no envía una solicitud ni conserva los datos o archivos seleccionados.</p>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="revision contenedor" id="revision" aria-labelledby="titulo-revision">
+      <div class="panel-revision">
+        <p class="etiqueta">Vista de demostración</p>
+        <span class="estado">Pendiente de validación documental</span>
+        <h2 id="titulo-revision">Así se verá tu registro en revisión.</h2>
+        <p>En la aplicación real, este estado aparecerá después de verificar tus medios de contacto y enviar los datos y documentos correspondientes.</p>
+        <ol>
+          <li><strong>Revisión de identidad y datos:</strong> se comprobará la información del usuario y, cuando aplique, de la empresa y su representante.</li>
+          <li><strong>Revisión documental:</strong> se validará la documentación aplicable al perfil y a cada unidad registrada.</li>
+          <li><strong>Resultado:</strong> recibirás una notificación de aprobación o una solicitud para corregir o completar información.</li>
+        </ol>
+        <p>Mientras la revisión esté pendiente, la cuenta no estará habilitada para publicar cargas ni aceptar viajes.</p>
+        <p class="aviso"><strong>No se ha enviado ningún registro.</strong> Esta pantalla representa el estado de espera; no existe una revisión en curso.</p>
+        <a class="boton boton-secundario" href="#registro">Volver al registro</a>
+      </div>
+    </section>
+
+    <section class="contenedor legal" aria-label="Información legal del prototipo">
+      <details id="terminos">
+        <summary>Términos y condiciones · Pendientes de incorporar</summary>
+        <div class="detalle">
+          <p>Esta página es una demostración de interfaz. No permite contratar servicios ni crear cuentas reales. Los términos definitivos de Logistic deberán incorporarse antes de su lanzamiento.</p>
+        </div>
+      </details>
+      <details id="privacidad">
+        <summary>Aviso de privacidad · Pendiente de incorporar</summary>
+        <div class="detalle">
+          <p>Este formulario de demostración no transmite sus campos personales ni sube los archivos seleccionados. No introduzcas datos reales. El aviso definitivo deberá identificar al responsable y explicar el tratamiento de datos antes de habilitar el registro.</p>
+        </div>
+      </details>
+    </section>
+  </main>
+
+  <footer id="contacto">
+    <div class="contenedor pie">
+      <p>© 2026 Logistic. Todos los derechos reservados.</p>
+      <p>Contacto: próximamente.</p>
+    </div>
+  </footer>
+</body>
+</html>
